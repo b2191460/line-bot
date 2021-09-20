@@ -1,5 +1,5 @@
-# インポートするライブラリ
 from flask import Flask, request, abort
+from flask.logging import create_logger
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -8,51 +8,63 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    FollowEvent, MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, TemplateSendMessage, ButtonsTemplate, PostbackTemplateAction, MessageTemplateAction, URITemplateAction
+    MessageEvent, TextMessage, TextSendMessage,
 )
 import os
 
-# 軽量なウェブアプリケーションフレームワーク:Flask
 app = Flask(__name__)
+log = create_logger(app)
 
-# 自分のアクセストークンとシークレットトークンを入れてください
-YOUR_CHANNEL_ACCESS_TOKEN = 'N8zN4ZGx / L0pW7ZAp6Yf5WGQd69ge5adfBogY0maX1JmkUl4YsqylVUJBZWZVhaNh5KAbH / pAaci7rL3pauxEi0mr62kuBJli9WBnWQ6DiTSyTqG72rp5Yv'
-YOUR_CHANNEL_SECRET = '74265d3b0eba822e91e2b7aa991e915a'
+#環境変数取得
+# LINE Developersで設定されているアクセストークンとChannel Secretをを取得し、設定します。
+YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
+YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
+# LINE Developersで設定されているアクセストークンとChannel Secretを設定します。 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-
-@app.route("/")
-def hello_world():
-    return "hello"
-
+## 1 ##
+#Webhookからのリクエストをチェックします。
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
+    # リクエストヘッダーから署名検証のための値を取得します。
     signature = request.headers['X-Line-Signature']
 
-    # get request body as text
+    # リクエストボディを取得します。
     body = request.get_data(as_text=True)
+    #app.logger.info("Request body: " + body)
     app.logger.info("Request body: " + body)
 
     # handle webhook body
+    # 署名を検証し、問題なければhandleに定義されている関数を呼び出す。
     try:
         handler.handle(body, signature)
+    # 署名検証で失敗した場合、例外を出す。
     except InvalidSignatureError:
+        print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
-
+    # handleの処理を終えればOK
     return 'OK'
 
-# MessageEvent
+## 2 ##
+###############################################
+#LINEのメッセージの取得と返信内容の設定(オウム返し)
+###############################################
+
+#LINEでMessageEvent（普通のメッセージを送信された場合）が起こった場合に、
+#def以下の関数を実行します。
+#reply_messageの第一引数のevent.reply_tokenは、イベントの応答に用いるトークンです。 
+#第二引数には、linebot.modelsに定義されている返信用のTextSendMessageオブジェクトを渡しています。
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text= event.message.text)
-  )
+        TextSendMessage(text=event.message.text)) #ここでオウム返しのメッセージを返します。
 
-
+# ポート番号の設定
 if __name__ == "__main__":
-    port=os.getenv("PORT",5000)
+    # app.run()
+    port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
