@@ -17,8 +17,8 @@ log = create_logger(app)
 
 #環境変数取得
 # LINE Developersで設定されているアクセストークンとChannel Secretをを取得し、設定します。
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["N8zN4ZGx / L0pW7ZAp6Yf5WGQd69ge5adfBogY0maX1JmkUl4YsqylVUJBZWZVhaNh5KAbH / pAaci7rL3pauxEi0mr62kuBJli9WBnWQ6DiTSyTqG72rp5Yv"]
-YOUR_CHANNEL_SECRET = os.environ["74265d3b0eba822e91e2b7aa991e915a"]
+YOUR_CHANNEL_ACCESS_TOKEN = "N8zN4ZGx / L0pW7ZAp6Yf5WGQd69ge5adfBogY0maX1JmkUl4YsqylVUJBZWZVhaNh5KAbH / pAaci7rL3pauxEi0mr62kuBJli9WBnWQ6DiTSyTqG72rp5Yv"
+YOUR_CHANNEL_SECRET = "74265d3b0eba822e91e2b7aa991e915a"
 
 # LINE Developersで設定されているアクセストークンとChannel Secretを設定します。 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
