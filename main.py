@@ -16,7 +16,7 @@ import os
 app = Flask(__name__)
 
 # 自分のアクセストークンとシークレットトークンを入れてください
-YOUR_CHANNEL_ACCESS_TOKEN = 'NVtVAd9 / 94YvM3ZUUklZnbJmLbEKdnCbqhiB2R2IYb6​​C6PFlgJczBnm / GkpJt5kmkfBmaHXmOteQBoW10DPPSQrqPoOEcRuQaastubYhwahEY56OA9vDa87jPBfQAPdl'
+YOUR_CHANNEL_ACCESS_TOKEN = 'pWx + JGTMIcxfhf7kA + uRjjENiQXUzm68Y2JNraNN / ARO9t8itEh4UfWx2KRJODzpkfBmaHXmOteQBoW10DPPSQrqPoOEcRuQaastubYhwah9eAJEzSCCGxLl'
 YOUR_CHANNEL_SECRET = 'fd8c5e8a05fa11cddcc9842b1890955f'
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
