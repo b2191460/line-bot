@@ -42,7 +42,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    return "OK"
+    return "O K"
 
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
