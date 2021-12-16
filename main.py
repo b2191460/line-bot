@@ -1,4 +1,10 @@
 # インポートするライブラリ
+import CreateExcelSheet
+
+import datetime
+import schedule
+import time
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -59,3 +65,11 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
 
 a = 1
+
+CreateExcelSheet.job
+#
+# schedule.every().thursday.at("22:52").do(CreateExcelSheet.job)
+#
+# while True:
+#     schedule.run_pending()
+#     time.sleep(10)
